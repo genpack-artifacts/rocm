@@ -1,0 +1,95 @@
+{
+    // You may need 'NINJAOPTS=j1' in /etc/portage/make.conf to analyze build errors
+    profile: "baremetal",
+    packages: [
+        "genpack/wireless",
+        "sci-ml/pytorch",
+        "app-misc/radeontop",
+        "dev-vcs/git",
+        "app-misc/status-beep",
+        "genpack/genpack"
+    ],
+    accept_keywords: {
+        // Latest stable kernel for AMD GPUs
+        "sys-kernel/gentoo-kernel-bin": null,
+        "virtual/dist-kernel": null, // for gentoo-kernel-bin
+        "sys-kernel/linux-firmware": null,
+
+        // ROCm and ML stuffs
+        "sci-ml/pytorch": null,
+        "sci-ml/caffe2": null,
+        "dev-libs/pthreadpool": null,
+        "sci-ml/kineto": null,
+        "sci-ml/onnx": null,
+        "dev-libs/pocketfft": null,
+        "sci-ml/FP16": null,
+        "dev-libs/dynolog": null,
+        "dev-libs/pfs": null,
+        "dev-libs/rccl": null,
+        "dev-util/hip": null,
+        "dev-util/hipify-clang": null,
+        "dev-util/hipcc": null,
+        "sci-libs/hipBLAS": null,
+        "sci-libs/hipBLASLt": null,
+        "sci-libs/hipBLAS-common": null,
+        "sci-libs/hipCUB": null,
+        "sci-libs/hipFFT": null,
+        "sci-libs/hipRAND": null,
+        "sci-libs/hipSOLVER": null,
+        "sci-libs/hipSPARSE": null,
+        "sci-libs/rocPRIM": null,
+        "sci-libs/rocRAND": null,
+        "sci-libs/rocSPARSE": null,
+        "sci-libs/rocSOLVER": null,
+        "sci-libs/rocThrust": null,
+        "sci-libs/rocBLAS": null,
+        "sci-libs/rocFFT": null,
+        "dev-util/roctracer": null,
+        "sci-libs/miopen": null,
+        "dev-build/rocm-cmake": null,
+        "dev-libs/rocr-runtime": null,
+        "dev-libs/roct-thunk-interface": null,
+        "dev-libs/rocm-device-libs": null,
+        "=dev-util/rocm-smi-6.4.1": null,
+        "dev-libs/rocm-comgr": null,
+        "dev-util/rocminfo": null,
+        "dev-cpp/frugally-deep": null,
+        "dev-cpp/functional-plus": null,
+        "dev-python/cppheaderparser": null,
+        "dev-libs/half": null,
+        "dev-util/Tensile": null,
+        "sci-ml/huggingface_hub": null,
+        "sci-ml/transformers": null, 
+        "sci-ml/tokenizers": null,
+        "sci-ml/tensorpipe": null,
+        "sci-ml/accelerate": null,
+        "sci-ml/torchvision": null,
+        "dev-libs/rocm-opencl-runtime": null
+    },
+    use: {
+        "media-libs/libglvnd": "X",
+        "sci-libs/rocPRIM": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+        "dev-util/roctracer": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+        "sci-libs/rocRAND": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+        "dev-libs/rccl": "AMDGPU_TARGETS: gfx1200 gfx1010 -gfx90a -gfx908 -gfx942", // gfx1103
+        "sci-libs/hipBLASLt": "benchmark roctracer AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+        "sci-libs/rocFFT": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+        "sci-libs/rocSPARSE": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+        "sci-libs/rocBLAS": "benchmark hipblaslt AMDGPU_TARGETS: gfx1200 gfx1010 -gfx90a -gfx908 -gfx942", // gfx1103
+        "sci-libs/hipCUB": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+        "sci-libs/hipFFT": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+        "sci-libs/hipRAND": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+        "sci-libs/miopen": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+        "sci-libs/rocThrust": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+        "sci-libs/rocSOLVER": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+        "sci-libs/hipSPARSE": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+        "sci-libs/hipBLAS": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+        "sci-libs/hipSOLVER": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+        "sci-ml/caffe2": "rocm distributed AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942", // opencl
+        "dev-util/Tensile": "client AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942"
+    },
+    license: {
+        "sys-kernel/linux-firmware": "linux-fw-redistributable"
+    },
+    services: ["status-beep"]
+}
