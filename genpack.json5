@@ -7,7 +7,9 @@
         "app-misc/radeontop",
         "dev-vcs/git",
         "app-misc/status-beep",
-        "genpack/genpack"
+        "genpack/genpack",
+	"dev-python/pip",
+	"sys-apps/ripgrep",
     ],
     accept_keywords: {
         // Latest stable kernel for AMD GPUs
@@ -91,5 +93,19 @@
     license: {
         "sys-kernel/linux-firmware": "linux-fw-redistributable"
     },
+    setup_commands: [
+        "sed -i 's/^#PrintLastLog yes$/PrintLastLog no/' /etc/ssh/sshd_config",
+        "sed -i 's/^\\(session.*\\spam_lastlog\\.so\\s.*\\)$/#\\1/' /etc/pam.d/system-login"
+    ],
+    users: [
+        {
+            name: "rocm",
+            uid: 1000,
+            empty_password: true,
+            additional_groups: [
+                "wheel","video"
+            ]
+        }
+    ],
     services: ["status-beep"]
 }
