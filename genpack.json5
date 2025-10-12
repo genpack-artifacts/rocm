@@ -2,14 +2,20 @@
     // You may need 'NINJAOPTS=j1' in /etc/portage/make.conf to analyze build errors
     profile: "baremetal",
     packages: [
+        "genpack/devel",
+        "app-containers/docker","app-containers/docker-compose",
         "genpack/wireless",
         "sci-ml/pytorch",
         "app-misc/radeontop",
         "dev-vcs/git",
         "app-misc/status-beep",
         "genpack/genpack",
-	"dev-python/pip",
+	"dev-python/pip","dev-python/pipdeptree",
 	"sys-apps/ripgrep",
+	// vLLM stuffs
+        "dev-python/aiohttp","dev-python/jsonschema","dev-python/blake3","dev-python/cachetools","dev-python/cbor2","dev-python/httpx","sci-ml/huggingface_hub","sci-ml/tokenizers","dev-python/uvicorn","dev-python/typer","dev-python/dill","dev-python/diskcache","dev-python/distlib","dev-python/distro","dev-python/dnspython","dev-python/filelock","dev-python/fsspec","dev-python/httptools","dev-python/email-validator","dev-python/watchfiles","dev-python/starlette","dev-python/cachecontrol","dev-python/msgspec","dev-python/networkx","dev-python/scipy","media-libs/opencv","dev-python/soundfile","dev-python/yarl","dev-python/py-cpuinfo","dev-python/pycountry","dev-python/python-dotenv","dev-python/python-json-logger","dev-python/python-multipart","dev-build/ninja","dev-python/pyzmq","dev-python/regex","dev-python/jsonschema","sci-ml/safetensors","sci-ml/sentencepiece","dev-python/setproctitle","dev-python/shellingham","dev-python/six","dev-python/tqdm","dev-python/pydantic","dev-python/uvloop","dev-python/websockets","dev-python/importlib-metadata",
+        "sci-ml/torchvision",
+        "sci-ml/accelerate",
     ],
     accept_keywords: {
         // Latest stable kernel for AMD GPUs
@@ -20,6 +26,7 @@
         // ROCm and ML stuffs
         "sci-ml/pytorch": null,
         "sci-ml/caffe2": null,
+        "sci-libs/aotriton-bin": null,
         "dev-libs/pthreadpool": null,
         "sci-ml/kineto": null,
         "sci-ml/onnx": null,
@@ -66,7 +73,15 @@
         "sci-ml/tensorpipe": null,
         "sci-ml/accelerate": null,
         "sci-ml/torchvision": null,
-        "dev-libs/rocm-opencl-runtime": null
+        "dev-libs/rocm-opencl-runtime": null,
+	// vLLM stuffs
+        "dev-python/blake3": null,
+        "dev-python/typer": null,
+        "dev-python/msgspec": null,
+        "dev-python/soundfile": null,
+        "sci-ml/safetensors": null,
+        "sci-ml/sentencepiece": null,
+
     },
     use: {
         "media-libs/libglvnd": "X",
@@ -87,8 +102,11 @@
         "sci-libs/hipSPARSE": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
         "sci-libs/hipBLAS": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
         "sci-libs/hipSOLVER": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
-        "sci-ml/caffe2": "rocm distributed AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942", // opencl
-        "dev-util/Tensile": "client AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942"
+        "sci-ml/caffe2": "rocm distributed memefficient AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942", // opencl
+        "dev-util/Tensile": "client AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
+
+        "media-libs/opencv": "python",
+        "sci-ml/torchvision": "rocm"
     },
     license: {
         "sys-kernel/linux-firmware": "linux-fw-redistributable"
@@ -103,9 +121,10 @@
             uid: 1000,
             empty_password: true,
             additional_groups: [
-                "wheel","video"
+                "wheel","video","docker"
             ]
         }
     ],
-    services: ["status-beep"]
+    services: ["docker","status-beep"]
 }
+// pip install --break-system-packages diffusers transformers accelerate
