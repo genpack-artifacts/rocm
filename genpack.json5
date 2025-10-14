@@ -1,5 +1,4 @@
 {
-    // You may need 'NINJAOPTS=j1' in /etc/portage/make.conf to analyze build errors
     profile: "baremetal",
     packages: [
         "genpack/devel",
@@ -7,6 +6,7 @@
         "genpack/wireless",
         "sci-ml/pytorch",
         "app-misc/radeontop",
+        "sys-process/nvtop",
         "dev-vcs/git",
         "app-misc/status-beep",
         "genpack/genpack",
@@ -125,6 +125,30 @@
             ]
         }
     ],
-    services: ["docker","status-beep"]
+    services: ["docker", "status-beep"],
+    variants: {
+        "cuda": {
+            accept_keywords: {
+                "dev-util/nvidia-cuda-toolkit": null,
+                "dev-libs/cudnn": null,
+                "sci-ml/cudnn-frontend": null,
+                "dev-libs/cutlass": null,
+                "x11-drivers/nvidia-drivers": null,
+            },
+            use: {
+                "dev-util/nvidia-cuda-toolkit": "profiler",
+                "sci-ml/caffe2": "cuda -rocm",
+                "dev-libs/cutlass":  "tools",
+                "x11-drivers/nvidia-drivers": "kernel-open"
+            },
+            license:{
+                "dev-util/nvidia-cuda-toolkit": "NVIDIA-CUDA",
+                "dev-libs/cudnn": "NVIDIA-cuDNN"
+            },
+            env: {
+                "sci-ml/caffe2": "torch_cuda.conf"
+            }
+        }
+    }
 }
 // pip install --break-system-packages diffusers transformers accelerate
