@@ -1,9 +1,11 @@
 {
     profile: "baremetal",
+    compression:"xz",
     packages: [
         "genpack/devel",
         "app-containers/docker","app-containers/docker-compose",
         "genpack/wireless",
+        "app-misc/screen",
         "sci-ml/pytorch",
         "app-misc/radeontop",
         "sys-process/nvtop",
@@ -139,14 +141,16 @@
                 "dev-util/nvidia-cuda-toolkit": "profiler",
                 "sci-ml/caffe2": "cuda -rocm",
                 "dev-libs/cutlass":  "tools",
-                "x11-drivers/nvidia-drivers": "kernel-open"
+                "sci-ml/torchvision": "cuda",
+                "x11-drivers/nvidia-drivers": "kernel-open",
             },
             license:{
                 "dev-util/nvidia-cuda-toolkit": "NVIDIA-CUDA",
                 "dev-libs/cudnn": "NVIDIA-cuDNN"
             },
             env: {
-                "sci-ml/caffe2": "torch_cuda.conf"
+                "sci-ml/caffe2": "torch_cuda.conf",
+                "sci-ml/torchvision": "torch_cuda.conf",
             }
         }
     }
