@@ -140,6 +140,7 @@
             use: {
                 "dev-util/nvidia-cuda-toolkit": "profiler",
                 "sci-ml/caffe2": "cuda -rocm",
+                "sci-ml/torchvision": "cuda",
                 "dev-libs/cutlass":  "tools",
                 "sci-ml/torchvision": "cuda",
                 "x11-drivers/nvidia-drivers": "kernel-open",
