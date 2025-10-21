@@ -14,10 +14,12 @@
         "genpack/genpack",
 	"dev-python/pip","dev-python/pipdeptree",
 	"sys-apps/ripgrep",
+        "media-gfx/chafa",
 	// vLLM stuffs
         "dev-python/aiohttp","dev-python/jsonschema","dev-python/blake3","dev-python/cachetools","dev-python/cbor2","dev-python/httpx","sci-ml/huggingface_hub","sci-ml/tokenizers","dev-python/uvicorn","dev-python/typer","dev-python/dill","dev-python/diskcache","dev-python/distlib","dev-python/distro","dev-python/dnspython","dev-python/filelock","dev-python/fsspec","dev-python/httptools","dev-python/email-validator","dev-python/watchfiles","dev-python/starlette","dev-python/cachecontrol","dev-python/msgspec","dev-python/networkx","dev-python/scipy","media-libs/opencv","dev-python/soundfile","dev-python/yarl","dev-python/py-cpuinfo","dev-python/pycountry","dev-python/python-dotenv","dev-python/python-json-logger","dev-python/python-multipart","dev-build/ninja","dev-python/pyzmq","dev-python/regex","dev-python/jsonschema","sci-ml/safetensors","sci-ml/sentencepiece","dev-python/setproctitle","dev-python/shellingham","dev-python/six","dev-python/tqdm","dev-python/pydantic","dev-python/uvloop","dev-python/websockets","dev-python/importlib-metadata",
         "sci-ml/torchvision",
         "sci-ml/accelerate",
+        "sci-ml/transformers",
     ],
     accept_keywords: {
         // Latest stable kernel for AMD GPUs
@@ -87,6 +89,7 @@
     },
     use: {
         "media-libs/libglvnd": "X",
+        "media-gfx/chafa": "webp",
         "sci-libs/rocPRIM": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
         "dev-util/roctracer": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
         "sci-libs/rocRAND": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
@@ -106,7 +109,7 @@
         "sci-libs/hipSOLVER": "AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
         "sci-ml/caffe2": "rocm distributed memefficient AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942", // opencl
         "dev-util/Tensile": "client AMDGPU_TARGETS: gfx1200 gfx1010 gfx1103 -gfx90a -gfx908 -gfx942",
-
+	"sci-ml/transformers": "torch",
         "media-libs/opencv": "python",
         "sci-ml/torchvision": "rocm"
     },
@@ -130,6 +133,7 @@
     services: ["docker", "status-beep"],
     variants: {
         "cuda": {
+            packages: ["x11-drivers/nvidia-drivers"],
             accept_keywords: {
                 "dev-util/nvidia-cuda-toolkit": null,
                 "dev-libs/cudnn": null,
@@ -139,15 +143,16 @@
             },
             use: {
                 "dev-util/nvidia-cuda-toolkit": "profiler",
-                "sci-ml/caffe2": "cuda -rocm",
+                "sci-ml/caffe2": "cuda -rocm distributed memefficient",
                 "sci-ml/torchvision": "cuda",
                 "dev-libs/cutlass":  "tools",
-                "sci-ml/torchvision": "cuda",
-                "x11-drivers/nvidia-drivers": "kernel-open",
+                "sci-ml/tensorpipe": "cuda",
+                "x11-drivers/nvidia-drivers": "-X -tools kernel-open",
             },
             license:{
                 "dev-util/nvidia-cuda-toolkit": "NVIDIA-CUDA",
-                "dev-libs/cudnn": "NVIDIA-cuDNN"
+                "dev-libs/cudnn": "NVIDIA-cuDNN",
+                "x11-drivers/nvidia-drivers": "NVIDIA-2025"
             },
             env: {
                 "sci-ml/caffe2": "torch_cuda.conf",
