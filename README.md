@@ -1,2 +1,2 @@
-# rocm
-ROCm artifact
+# torch
+PyTorch artifact supports both CUDA and ROCm
