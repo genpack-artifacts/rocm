@@ -122,7 +122,7 @@
     ],
     users: [
         {
-            name: "rocm",
+            name: "torch",
             uid: 1000,
             empty_password: true,
             additional_groups: [
