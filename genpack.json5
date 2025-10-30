@@ -3,6 +3,7 @@
     compression:"xz",
     packages: [
         "genpack/devel",
+        "sys-apps/memtest86-bin",
         "app-containers/docker","app-containers/docker-compose",
         "genpack/wireless",
         "app-misc/screen",
@@ -22,6 +23,8 @@
         "sci-ml/transformers",
     ],
     accept_keywords: {
+        "sys-fs/fatcat": null,
+        "sys-apps/memtest86-bin": null,
         // Latest stable kernel for AMD GPUs
         "sys-kernel/gentoo-kernel-bin": null,
         "virtual/dist-kernel": null, // for gentoo-kernel-bin
@@ -59,7 +62,9 @@
         "sci-libs/rocFFT": null,
         "dev-util/roctracer": null,
         "sci-libs/miopen": null,
+        "dev-libs/rocm-core": null,
         "dev-build/rocm-cmake": null,
+        "dev-util/rocm-smi": null,
         "dev-libs/rocr-runtime": null,
         "dev-libs/roct-thunk-interface": null,
         "dev-libs/rocm-device-libs": null,
@@ -114,9 +119,11 @@
         "sci-ml/torchvision": "rocm"
     },
     license: {
-        "sys-kernel/linux-firmware": "linux-fw-redistributable"
+        "sys-kernel/linux-firmware": "linux-fw-redistributable",
+        "sys-apps/memtest86-bin": "PassMark-EULA"
     },
     setup_commands: [
+        "rm -f /boot/grub/grub.cfg",
         "sed -i 's/^#PrintLastLog yes$/PrintLastLog no/' /etc/ssh/sshd_config",
         "sed -i 's/^\\(session.*\\spam_lastlog\\.so\\s.*\\)$/#\\1/' /etc/pam.d/system-login"
     ],
